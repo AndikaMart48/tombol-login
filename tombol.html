@@ -62,12 +62,19 @@
 
     function toggleLogin() {
       if (isLogin) {
-        // Konfirmasi sebelum logout
         let yakin = confirm(`Yakin mau logout, ${nama}?`);
         if (yakin) {
           isLogin = false;
           localStorage.setItem('isLogin', 'false');
-          updateUI();
+          
+          // Tampilkan pesan perpisahan 2 detik
+          welcome.textContent = `Sampai jumpa lagi, ${nama}! 👋`;
+          btn.disabled = true; // matiin tombol sementara
+          
+          setTimeout(() => {
+            updateUI();
+            btn.disabled = false; // aktifin lagi tombolnya
+          }, 2000);
         }
       } else {
         isLogin = true;
