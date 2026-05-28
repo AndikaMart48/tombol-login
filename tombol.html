@@ -1,26 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Tombol Login</title>
   <style>
-button {
-  background:blueviolet;
-  color: orange;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 30px;
-  font-size: 16px;
-}
     body {
-  display: flex;           /* bikin isi body bisa diatur posisinya */
-  justify-content: center; /* taruh di tengah horizontal */
-  align-items: center;     /* taruh di tengah vertikal */
-  height: 100vh;           /* tinggi body full layar */
-  margin: 0;               /* hapus jarak bawaan browser */
-  background: #f3f4f6;     /* kasih warna abu-abu terang biar gak putih polos */
-}
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    button {
+      background-color: #8b5cf6;
+      color: #f59e0b;
+      border: none;
+      padding: 15px 40px;
+      font-size: 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      opacity: 0.8;
+    }
   </style>
 </head>
 <body>
-  <button>@login</button>
+  <button id="btnLogin" onclick="toggleLogin()">Login</button>
+
+  <script>
+    let isLogin = false;
+    
+    function toggleLogin() {
+      const btn = document.getElementById('btnLogin');
+      if (isLogin) {
+        btn.textContent = 'Login';
+        isLogin = false;
+      } else {
+        btn.textContent = 'Logout';
+        isLogin = true;
+      }
+    }
+  </script>
 </body>
 </html>
