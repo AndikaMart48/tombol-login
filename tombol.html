@@ -5,11 +5,13 @@
   <style>
     body {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
       background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
     }
     button {
       color: white;
@@ -27,24 +29,49 @@
     .logout {
       background-color: #ef4444;
     }
+    #welcome {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #333;
+    }
   </style>
 </head>
 <body>
-  <button id="btnLogin" class="login" onclick="toggleLogin()">Login</button>
+  <button id="btnLogin" onclick="toggleLogin()">Login</button>
+  <div id="welcome"></div>
 
   <script>
-    let isLogin = false;
+    const btn = document.getElementById('btnLogin');
+    const welcome = document.getElementById('welcome');
     
+    // Cek status login pas halaman dibuka
+    let isLogin = localStorage.getItem('isLogin') === 'true';
+    updateUI();
+
     function toggleLogin() {
-      const btn = document.getElementById('btnLogin');
       if (isLogin) {
-        btn.textContent = 'Login';
-        btn.className = 'login';
+        // Kalau lagi login, klik jadi logout
         isLogin = false;
+        localStorage.setItem('isLogin', 'false');
       } else {
+        // Kalau lagi logout, klik jadi login + redirect ke Google
+        isLogin = true;
+        localStorage.setItem('isLogin', 'true');
+        window.location.href = 'https://www.google.com';
+        return;
+      }
+      updateUI();
+    }
+
+    function updateUI() {
+      if (isLogin) {
         btn.textContent = 'Logout';
         btn.className = 'logout';
-        isLogin = true;
+        welcome.textContent = 'Halo, lu udah login! 🎉';
+      } else {
+        btn.textContent = 'Login';
+        btn.className = 'login';
+        welcome.textContent = '';
       }
     }
   </script>
