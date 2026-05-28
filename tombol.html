@@ -46,11 +46,19 @@
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
   </style>
 </head>
 <body>
   <button id="btnLogin" onclick="toggleLogin()">Login</button>
   <div id="welcome"></div>
+  <footer>@ 2026 Hak Cipta Adrianus Marut</footer>
 
   <script>
     const btn = document.getElementById('btnLogin');
@@ -67,13 +75,12 @@
           isLogin = false;
           localStorage.setItem('isLogin', 'false');
           
-          // Tampilkan pesan perpisahan 2 detik
           welcome.textContent = `Sampai jumpa lagi, ${nama}! 👋`;
-          btn.disabled = true; // matiin tombol sementara
+          btn.disabled = true;
           
           setTimeout(() => {
             updateUI();
-            btn.disabled = false; // aktifin lagi tombolnya
+            btn.disabled = false;
           }, 2000);
         }
       } else {
