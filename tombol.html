@@ -30,6 +30,7 @@
       font-weight: 500;
       margin-bottom: 25px;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      text-transform: uppercase;
     }
  #loginArea {
       text-align: center;
@@ -62,19 +63,7 @@
       color: rgba(255,255,255,0.5);
       letter-spacing: normal;
     }
-.forgot-pin {
-      color: rgba(255,255,255,0.7);
-      font-size: 14px;
-      margin-top: 15px;
-      cursor: pointer;
-      text-decoration: underline;
-      display: inline-block;
-    }
-.forgot-pin:hover {
-      color: white;
-    }
 .btn {
-      margin-top: 0;
       color: white;
       border: none;
       padding: 12px 40px;
@@ -85,10 +74,22 @@
       background: rgba(255,255,255,0.2);
       transition: all 0.3s ease;
       backdrop-filter: blur(10px);
+      margin-top: 25px;
     }
 .btn:hover {
       background: rgba(255,255,255,0.3);
       transform: scale(1.05);
+    }
+.forgot-pin {
+      color: rgba(255,255,255,0.8);
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: underline;
+      margin-top: 15px;
+      display: block;
+    }
+.forgot-pin:hover {
+      color: white;
     }
 .btn-logout {
       background: rgba(239, 68, 68, 0.7);
@@ -139,10 +140,10 @@
   </style>
 </head>
 <body>
-  <img class="profile-pic" id="profilePic" src="attachment://0" alt="Foto Profil" onclick="document.getElementById('fileInput').click()">
+  <img class="profile-pic" id="profilePic" src="attachment://27143753671978832" alt="Foto Profil" onclick="document.getElementById('fileInput').click()">
   <input type="file" id="fileInput" accept="image/*" onchange="loadFoto(event)" style="display:none">
 
-  <div class="name-text" id="nameText">Andrianus Marut</div>
+  <div class="name-text" id="nameText">Adrianus Marut</div>
 
   <div id="loginArea">
     <div class="pin-label">Masukkan PIN Anda</div>
@@ -166,7 +167,7 @@
     const loginArea = document.getElementById('loginArea');
     const logoutArea = document.getElementById('logoutArea');
 
-    let nama = localStorage.getItem('namaUser') || 'Andrianus Marut';
+    let nama = localStorage.getItem('namaUser') || 'Adrianus Marut';
     let isLogin = localStorage.getItem('isLogin') === 'true';
 
     nameText.textContent = nama;
