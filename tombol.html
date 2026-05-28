@@ -103,10 +103,10 @@
     }
     #welcome {
       margin-top: 30px;
-      font-size: 24px;
+      font-size: 28px;
       color: white;
       font-weight: bold;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
       animation: fadeIn 0.5s ease;
     }
     @keyframes fadeIn {
@@ -177,6 +177,22 @@
       profilePic.src = fotoTersimpan;
     }
 
+    // Audio context buat bunyi PIN
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playBeep() {
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      oscillator.type = 'sine';
+      oscillator.frequency.value = 800; // nada tit
+      gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+      oscillator.start(audioCtx.currentTime);
+      oscillator.stop(audioCtx.currentTime + 0.1);
+    }
+
     updateUI();
 
     function loadFoto(event) {
@@ -231,9 +247,11 @@
       localStorage.setItem('isLogin', 'true');
       createConfetti();
       updateUI();
+
+      // Tunggu 2 detik biar salamnya keliatan
       setTimeout(() => {
         window.open('https://www.google.com', '_blank');
-      }, 500);
+      }, 2000);
     }
 
     function logout() {
@@ -271,8 +289,18 @@
     pinInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         cekPIN();
+      } else if (!isNaN(e.key)) {
+        // Bunyi tit pas pencet angka
+        playBeep();
       }
     });
+
+    // Aktifin audio context pas klik pertama
+    document.addEventListener('click', () => {
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }, { once: true });
   </script>
 </body>
 </html>
