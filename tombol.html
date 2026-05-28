@@ -11,10 +11,28 @@
       height: 100vh;
       margin: 0;
       background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      background-size: cover;
+      background-position: center;
       font-family: 'Segoe UI', Arial, sans-serif;
       overflow: hidden;
     }
-.profile-pic {
+    #clock {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      text-align: right;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    #time {
+      font-size: 42px;
+      font-weight: 300;
+    }
+    #date {
+      font-size: 18px;
+      opacity: 0.8;
+    }
+   .profile-pic {
       width: 130px;
       height: 130px;
       border-radius: 50%;
@@ -24,7 +42,7 @@
       object-fit: cover;
       cursor: pointer;
     }
-.name-text {
+   .name-text {
       color: white;
       font-size: 28px;
       font-weight: 500;
@@ -32,15 +50,15 @@
       text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
       text-transform: uppercase;
     }
- #loginArea {
+    #loginArea {
       text-align: center;
     }
-.pin-label {
+   .pin-label {
       color: rgba(255,255,255,0.9);
       font-size: 18px;
       margin-bottom: 12px;
     }
-.pin-input {
+   .pin-input {
       padding: 12px 20px;
       font-size: 20px;
       border: 2px solid rgba(255,255,255,0.3);
@@ -55,15 +73,15 @@
       display: block;
       margin: 0 auto 20px auto;
     }
-.pin-input:focus {
+   .pin-input:focus {
       border-color: rgba(255,255,255,0.8);
       background: rgba(255,255,255,0.25);
     }
-.pin-input::placeholder {
+   .pin-input::placeholder {
       color: rgba(255,255,255,0.5);
       letter-spacing: normal;
     }
-.btn {
+   .btn {
       color: white;
       border: none;
       padding: 12px 40px;
@@ -76,11 +94,11 @@
       backdrop-filter: blur(10px);
       margin-top: 25px;
     }
-.btn:hover {
+   .btn:hover {
       background: rgba(255,255,255,0.3);
       transform: scale(1.05);
     }
-.forgot-pin {
+   .forgot-pin {
       color: rgba(255,255,255,0.8);
       font-size: 14px;
       cursor: pointer;
@@ -88,17 +106,17 @@
       margin-top: 15px;
       display: block;
     }
-.forgot-pin:hover {
+   .forgot-pin:hover {
       color: white;
     }
-.btn-logout {
+   .btn-logout {
       background: rgba(239, 68, 68, 0.7);
       margin-top: 35px;
       display: block;
       margin-left: auto;
       margin-right: auto;
     }
-.btn-logout:hover {
+   .btn-logout:hover {
       background: rgba(239, 68, 68, 0.9);
     }
     #welcome {
@@ -120,7 +138,7 @@
       color: rgba(255, 255, 255, 0.6);
       text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     }
-.confetti {
+   .confetti {
       position: absolute;
       width: 10px;
       height: 10px;
@@ -134,12 +152,28 @@
         opacity: 0;
       }
     }
-.hidden {
+   .hidden {
       display: none;
+    }
+    #changeWallpaper {
+      position: absolute;
+      bottom: 60px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    #changeWallpaper:hover {
+      color: white;
     }
   </style>
 </head>
 <body>
+  <div id="clock">
+    <div id="time"></div>
+    <div id="date"></div>
+  </div>
+
   <img class="profile-pic" id="profilePic" src="attachment://27143753671978832" alt="Foto Profil" onclick="document.getElementById('fileInput').click()">
   <input type="file" id="fileInput" accept="image/*" onchange="loadFoto(event)" style="display:none">
 
@@ -157,6 +191,9 @@
     <button class="btn btn-logout" onclick="logout()">Logout</button>
   </div>
 
+  <div id="changeWallpaper" onclick="document.getElementById('wallpaperInput').click()">Ganti Wallpaper</div>
+  <input type="file" id="wallpaperInput" accept="image/*" onchange="loadWallpaper(event)" style="display:none">
+
   <footer>@ 2026 Hak Cipta Adrianus Marut</footer>
 
   <script>
@@ -166,6 +203,7 @@
     const welcome = document.getElementById('welcome');
     const loginArea = document.getElementById('loginArea');
     const logoutArea = document.getElementById('logoutArea');
+    const body = document.body;
 
     let nama = localStorage.getItem('namaUser') || 'Adrianus Marut';
     let isLogin = localStorage.getItem('isLogin') === 'true';
@@ -175,6 +213,11 @@
     const fotoTersimpan = localStorage.getItem('fotoUser');
     if (fotoTersimpan) {
       profilePic.src = fotoTersimpan;
+    }
+
+    const wallpaperTersimpan = localStorage.getItem('wallpaperUser');
+    if (wallpaperTersimpan) {
+      body.style.backgroundImage = `url(${wallpaperTersimpan})`;
     }
 
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -192,6 +235,16 @@
       oscillator.stop(audioCtx.currentTime + 0.1);
     }
 
+    function updateClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+      const date = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+      document.getElementById('time').textContent = time;
+      document.getElementById('date').textContent = date;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
     updateUI();
 
     function loadFoto(event) {
@@ -201,6 +254,18 @@
         reader.onload = function(e) {
           profilePic.src = e.target.result;
           localStorage.setItem('fotoUser', e.target.result);
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function loadWallpaper(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          body.style.backgroundImage = `url(${e.target.result})`;
+          localStorage.setItem('wallpaperUser', e.target.result);
         }
         reader.readAsDataURL(file);
       }
@@ -260,7 +325,7 @@
         };
 
         if (link[pilihan]) {
-          window.open(link[pilihan], '_blank');
+          window.location.href = link[pilihan];
         } else if (pilihan) {
           alert('Pilihan nggak ada bos! Ketik IG, WA, FB, TIKTOK, YOUTUBE, atau GOOGLE');
         }
