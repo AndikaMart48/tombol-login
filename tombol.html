@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login Windows KW</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HACKER LOGIN v2.0</title>
   <style>
+    * { box-sizing: border-box; }
     body {
       display: flex;
       flex-direction: column;
@@ -10,165 +12,188 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-      background-size: cover;
-      background-position: center;
-      font-family: 'Segoe UI', Arial, sans-serif;
+      padding: 20px;
+      background: #000;
+      font-family: 'Courier New', monospace;
       overflow: hidden;
+      position: relative;
+    }
+    /* Matrix Rain Effect */
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
     }
     #clock {
       position: absolute;
-      top: 20px;
-      right: 30px;
-      color: white;
+      top: 15px;
+      right: 20px;
+      color: #00ff00;
       text-align: right;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      text-shadow: 0 0 10px #00ff00;
+      z-index: 1;
     }
     #time {
-      font-size: 42px;
-      font-weight: 300;
+      font-size: clamp(28px, 8vw, 42px);
+      font-weight: bold;
     }
     #date {
-      font-size: 18px;
+      font-size: clamp(12px, 3vw, 18px);
       opacity: 0.8;
     }
-   .profile-pic {
-      width: 130px;
-      height: 130px;
+ .profile-pic {
+      width: clamp(100px, 25vw, 130px);
+      height: clamp(100px, 25vw, 130px);
       border-radius: 50%;
-      border: 3px solid rgba(255,255,255,0.8);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-      margin-bottom: 20px;
+      border: 2px solid #00ff00;
+      box-shadow: 0 0 20px #00ff00;
+      margin-bottom: 15px;
       object-fit: cover;
       cursor: pointer;
+      z-index: 1;
+      filter: hue-rotate(90deg) brightness(1.2);
     }
-   .name-text {
-      color: white;
-      font-size: 28px;
-      font-weight: 500;
-      margin-bottom: 25px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+ .name-text {
+      color: #00ff00;
+      font-size: clamp(20px, 5vw, 28px);
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #00ff00;
       text-transform: uppercase;
+      text-align: center;
+      z-index: 1;
     }
     #loginArea {
       text-align: center;
+      width: 100%;
+      max-width: 320px;
+      z-index: 1;
     }
-   .pin-label {
-      color: rgba(255,255,255,0.9);
-      font-size: 18px;
+ .pin-label {
+      color: #00ff00;
+      font-size: clamp(14px, 4vw, 18px);
       margin-bottom: 12px;
+      text-shadow: 0 0 5px #00ff00;
     }
-   .pin-input {
+ .pin-input {
       padding: 12px 20px;
-      font-size: 20px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-radius: 8px;
-      background: rgba(255,255,255,0.15);
-      color: white;
+      font-size: clamp(16px, 5vw, 20px);
+      border: 2px solid #00ff00;
+      border-radius: 0;
+      background: rgba(0, 255, 0, 0.1);
+      color: #00ff00;
       text-align: center;
       letter-spacing: 8px;
-      width: 220px;
+      width: 100%;
+      max-width: 220px;
       outline: none;
-      backdrop-filter: blur(10px);
+      box-shadow: 0 0 10px #00ff00;
       display: block;
       margin: 0 auto 20px auto;
     }
-   .pin-input:focus {
-      border-color: rgba(255,255,255,0.8);
-      background: rgba(255,255,255,0.25);
+ .pin-input:focus {
+      background: rgba(0, 255, 0, 0.2);
+      box-shadow: 0 0 20px #00ff00;
     }
-   .pin-input::placeholder {
-      color: rgba(255,255,255,0.5);
+ .pin-input::placeholder {
+      color: rgba(0, 255, 0, 0.4);
       letter-spacing: normal;
     }
-   .btn {
-      color: white;
-      border: none;
+ .btn {
+      color: #00ff00;
+      border: 2px solid #00ff00;
       padding: 12px 40px;
-      font-size: 16px;
-      border-radius: 6px;
+      font-size: clamp(14px, 4vw, 16px);
+      border-radius: 0;
       cursor: pointer;
       font-weight: bold;
-      background: rgba(255,255,255,0.2);
+      background: rgba(0, 255, 0, 0.1);
       transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      margin-top: 25px;
+      box-shadow: 0 0 10px #00ff00;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 200px;
+      text-transform: uppercase;
     }
-   .btn:hover {
-      background: rgba(255,255,255,0.3);
-      transform: scale(1.05);
+ .btn:hover {
+      background: rgba(0, 255, 0, 0.3);
+      box-shadow: 0 0 30px #00ff00;
     }
-   .forgot-pin {
-      color: rgba(255,255,255,0.8);
-      font-size: 14px;
+ .forgot-pin {
+      color: #00ff00;
+      font-size: clamp(12px, 3vw, 14px);
       cursor: pointer;
       text-decoration: underline;
       margin-top: 15px;
       display: block;
+      opacity: 0.7;
     }
-   .forgot-pin:hover {
-      color: white;
+ .forgot-pin:hover {
+      opacity: 1;
     }
-   .btn-logout {
-      background: rgba(239, 68, 68, 0.7);
-      margin-top: 35px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
+ .btn-logout {
+      border-color: #ff0000;
+      color: #ff0000;
+      box-shadow: 0 0 10px #ff0000;
+      background: rgba(255, 0, 0, 0.1);
     }
-   .btn-logout:hover {
-      background: rgba(239, 68, 68, 0.9);
+ .btn-logout:hover {
+      background: rgba(255, 0, 0, 0.3);
+      box-shadow: 0 0 30px #ff0000;
     }
     #welcome {
-      margin-top: 30px;
-      font-size: 28px;
-      color: white;
+      margin-top: 20px;
+      font-size: clamp(20px, 5vw, 28px);
+      color: #00ff00;
       font-weight: bold;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-      animation: fadeIn 0.5s ease;
+      text-shadow: 0 0 15px #00ff00;
+      animation: blink 0.5s ease;
+      text-align: center;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+ .shake {
+      animation: shake 0.3s ease;
     }
     footer {
       position: absolute;
-      bottom: 20px;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.6);
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-    }
-   .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      top: -10px;
-      animation: fall 3s linear forwards;
+      bottom: 15px;
+      font-size: clamp(10px, 2.5vw, 14px);
+      color: #00ff00;
+      text-shadow: 0 0 5px #00ff00;
+      text-align: center;
       z-index: 1;
+      opacity: 0.6;
     }
-    @keyframes fall {
-      to {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-   .hidden {
+ .hidden {
       display: none;
     }
     #changeWallpaper {
       position: absolute;
-      bottom: 60px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.5);
+      bottom: 50px;
+      font-size: clamp(10px, 2.5vw, 12px);
+      color: #00ff00;
       cursor: pointer;
       text-decoration: underline;
+      z-index: 1;
+      opacity: 0.5;
     }
     #changeWallpaper:hover {
-      color: white;
+      opacity: 1;
     }
   </style>
 </head>
 <body>
+  <canvas id="matrix"></canvas>
+
   <div id="clock">
     <div id="time"></div>
     <div id="date"></div>
@@ -177,26 +202,54 @@
   <img class="profile-pic" id="profilePic" src="attachment://27143753671978832" alt="Foto Profil" onclick="document.getElementById('fileInput').click()">
   <input type="file" id="fileInput" accept="image/*" onchange="loadFoto(event)" style="display:none">
 
-  <div class="name-text" id="nameText">Adrianus Marut</div>
+  <div class="name-text" id="nameText">ANDIKA MART // ADMIN</div>
 
   <div id="loginArea">
-    <div class="pin-label">Masukkan PIN Anda</div>
-    <input type="password" class="pin-input" id="pinInput" placeholder="PIN" maxlength="6">
-    <button class="btn" onclick="cekPIN()">Masuk</button>
-    <div class="forgot-pin" onclick="resetPIN()">Lupa PIN</div>
+    <div class="pin-label">[ ENTER ACCESS CODE ]</div>
+    <input type="password" class="pin-input" id="pinInput" placeholder="****" maxlength="6" inputmode="numeric">
+    <button class="btn" onclick="cekPIN()">[ ACCESS SYSTEM ]</button>
+    <div class="forgot-pin" onclick="resetPIN()">[ RESET ACCESS ]</div>
   </div>
 
   <div id="logoutArea" class="hidden">
     <div id="welcome"></div>
-    <button class="btn btn-logout" onclick="logout()">Logout</button>
+    <button class="btn btn-logout" onclick="logout()">[ TERMINATE SESSION ]</button>
   </div>
 
-  <div id="changeWallpaper" onclick="document.getElementById('wallpaperInput').click()">Ganti Wallpaper</div>
+  <div id="changeWallpaper" onclick="document.getElementById('wallpaperInput').click()">[ CHANGE MATRIX BG ]</div>
   <input type="file" id="wallpaperInput" accept="image/*" onchange="loadWallpaper(event)" style="display:none">
 
-  <footer>@ 2026 Hak Cipta Adrianus Marut</footer>
+  <footer>ROOT@ANDIKA-MART:~# 2026</footer>
 
   <script>
+    // Matrix Rain Effect
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = '01アカサタナハマヤラワガザダバパイキシチニヒミリギジヂビピウクスツヌフムユルグズヅブプエケセテネヘメレゲゼデベペオコソトノホモヨロゴゾドボポヴッン';
+    const fontSize = 14;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array(columns).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#00ff00';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 33);
+
     const profilePic = document.getElementById('profilePic');
     const nameText = document.getElementById('nameText');
     const pinInput = document.getElementById('pinInput');
@@ -205,40 +258,36 @@
     const logoutArea = document.getElementById('logoutArea');
     const body = document.body;
 
-    let nama = localStorage.getItem('namaUser') || 'Adrianus Marut';
+    let nama = localStorage.getItem('namaUser') || 'ANDIKA MART // ADMIN';
     let isLogin = localStorage.getItem('isLogin') === 'true';
-
     nameText.textContent = nama;
 
     const fotoTersimpan = localStorage.getItem('fotoUser');
-    if (fotoTersimpan) {
-      profilePic.src = fotoTersimpan;
-    }
-
-    const wallpaperTersimpan = localStorage.getItem('wallpaperUser');
-    if (wallpaperTersimpan) {
-      body.style.backgroundImage = `url(${wallpaperTersimpan})`;
-    }
+    if (fotoTersimpan) profilePic.src = fotoTersimpan;
 
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     function playBeep() {
-      const oscillator = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
-      oscillator.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
-      oscillator.type = 'sine';
-      oscillator.frequency.value = 800;
-      gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-      oscillator.start(audioCtx.currentTime);
-      oscillator.stop(audioCtx.currentTime + 0.1);
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = 'square';
+      osc.frequency.value = 1200;
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.05);
+    }
+
+    function vibrate() {
+      if (navigator.vibrate) navigator.vibrate(300);
     }
 
     function updateClock() {
       const now = new Date();
-      const time = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-      const date = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+      const time = now.toLocaleTimeString('en-US', { hour12: false });
+      const date = now.toISOString().split('T')[0];
       document.getElementById('time').textContent = time;
       document.getElementById('date').textContent = date;
     }
@@ -251,36 +300,11 @@
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = e => {
           profilePic.src = e.target.result;
           localStorage.setItem('fotoUser', e.target.result);
         }
         reader.readAsDataURL(file);
-      }
-    }
-
-    function loadWallpaper(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          body.style.backgroundImage = `url(${e.target.result})`;
-          localStorage.setItem('wallpaperUser', e.target.result);
-        }
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function createConfetti() {
-      const colors = ['#ff0', '#f0f', '#0ff', '#f00', '#0f0', '#00f', '#ff8c00'];
-      for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDelay = Math.random() * 0.5 + 's';
-        document.body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 3000);
       }
     }
 
@@ -290,7 +314,7 @@
 
       if (!pinTersimpan) {
         if (pinMasukkan.length < 4) {
-          alert('PIN minimal 4 angka bos!');
+          alert('[ ERROR: ACCESS CODE TOO SHORT ]');
           return;
         }
         localStorage.setItem('pinUser', pinMasukkan);
@@ -299,7 +323,10 @@
         if (pinMasukkan === pinTersimpan) {
           loginSukses();
         } else {
-          alert('PIN salah bos! Coba lagi.');
+          body.classList.add('shake');
+          vibrate();
+          setTimeout(() => body.classList.remove('shake'), 300);
+          alert('[ ACCESS DENIED: INVALID CODE ]');
           pinInput.value = '';
           pinInput.focus();
         }
@@ -309,12 +336,9 @@
     function loginSukses() {
       isLogin = true;
       localStorage.setItem('isLogin', 'true');
-      createConfetti();
       updateUI();
-
       setTimeout(() => {
-        let pilihan = prompt(`Mau buka apa bos?\n\nKetik salah satu:\nIG, WA, FB, TIKTOK, YOUTUBE, GOOGLE`).toUpperCase();
-
+        let pilihan = prompt(`[ SYSTEM ACCESS GRANTED ]\n\nSelect target:\nIG, WA, FB, TIKTOK, YOUTUBE, GOOGLE`).toUpperCase();
         let link = {
           'IG': 'https://www.instagram.com',
           'WA': 'https://web.whatsapp.com',
@@ -323,18 +347,12 @@
           'YOUTUBE': 'https://www.youtube.com',
           'GOOGLE': 'https://www.google.com'
         };
-
-        if (link[pilihan]) {
-          window.location.href = link[pilihan];
-        } else if (pilihan) {
-          alert('Pilihan nggak ada bos! Ketik IG, WA, FB, TIKTOK, YOUTUBE, atau GOOGLE');
-        }
-      }, 2000);
+        if (link[pilihan]) window.location.href = link[pilihan];
+      }, 1500);
     }
 
     function logout() {
-      let yakin = confirm(`Yakin mau logout, ${nama}?`);
-      if (yakin) {
+      if (confirm(`[ TERMINATE SESSION FOR ${nama}? ]`)) {
         isLogin = false;
         localStorage.setItem('isLogin', 'false');
         pinInput.value = '';
@@ -343,10 +361,9 @@
     }
 
     function resetPIN() {
-      let yakin = confirm('Yakin mau reset PIN? PIN lama bakal kehapus.');
-      if (yakin) {
+      if (confirm('[ RESET ACCESS CODE? ]')) {
         localStorage.removeItem('pinUser');
-        alert('PIN udah direset. Ketik PIN baru pas login lagi.');
+        alert('[ ACCESS CODE RESET COMPLETE ]');
         pinInput.value = '';
         pinInput.focus();
       }
@@ -356,7 +373,7 @@
       if (isLogin) {
         loginArea.classList.add('hidden');
         logoutArea.classList.remove('hidden');
-        welcome.textContent = `Halo ${nama}, lu udah login! 🎉`;
+        welcome.textContent = `>>> WELCOME ${nama} <<<`;
       } else {
         loginArea.classList.remove('hidden');
         logoutArea.classList.add('hidden');
@@ -364,19 +381,19 @@
       }
     }
 
-    pinInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        cekPIN();
-      } else if (!isNaN(e.key)) {
-        playBeep();
-      }
+    pinInput.addEventListener('keypress', e => {
+      if (e.key === 'Enter') cekPIN();
+      else if (!isNaN(e.key)) playBeep();
     });
 
     document.addEventListener('click', () => {
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
     }, { once: true });
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
   </script>
 </body>
 </html>
