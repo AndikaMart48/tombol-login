@@ -62,8 +62,13 @@
 
     function toggleLogin() {
       if (isLogin) {
-        isLogin = false;
-        localStorage.setItem('isLogin', 'false');
+        // Konfirmasi sebelum logout
+        let yakin = confirm(`Yakin mau logout, ${nama}?`);
+        if (yakin) {
+          isLogin = false;
+          localStorage.setItem('isLogin', 'false');
+          updateUI();
+        }
       } else {
         isLogin = true;
         localStorage.setItem('isLogin', 'true');
@@ -75,9 +80,7 @@
         
         updateUI();
         window.open('https://www.google.com', '_blank');
-        return;
       }
-      updateUI();
     }
 
     function updateUI() {
