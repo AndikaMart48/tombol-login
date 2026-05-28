@@ -164,9 +164,9 @@
     }
 
 @media (max-height: 600px) {
- .clockBox { top: 10px; right: 15px; }
- .loginBox { top: 48%; }
- .bottomControls { bottom: 10px; }
+.clockBox { top: 10px; right: 15px; }
+.loginBox { top: 48%; }
+.bottomControls { bottom: 10px; }
 }
   </style>
 </head>
@@ -255,7 +255,6 @@
       reader.onload = e => {
         avatar.src = e.target.result;
 
-        // FIX: Simpan pakai currentName kalau udah login, kalau belum pakai nama di input
         let saveName = isLogin? currentName : nameInput.value.trim();
         if (saveName) {
           let key = 'photo_' + saveName.toLowerCase();
@@ -338,7 +337,15 @@
       desktopForm.classList.add('hidden');
       loginForm.classList.remove('hidden');
       backBtn.style.display = 'none';
-      avatar.src = defaultAvatar;
+
+      if (currentName) {
+        loadUserPhoto(currentName);
+      } else {
+        avatar.src = defaultAvatar;
+      }
+
+      nameInput.value = '';
+      pinInput.value = '';
     }
 
     function bukaApp(app) {
