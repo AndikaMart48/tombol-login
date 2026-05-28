@@ -13,6 +13,26 @@
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       font-family: 'Arial', sans-serif;
     }
+   .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      margin-bottom: 15px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+   .upload-label {
+      color: white;
+      font-size: 14px;
+      margin-bottom: 25px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    input[type="file"] {
+      display: none;
+    }
     button {
       color: white;
       border: none;
@@ -32,10 +52,10 @@
       opacity: 0.6;
       cursor: not-allowed;
     }
-    .login {
+   .login {
       background: linear-gradient(135deg, #8b5cf6, #a855f7);
     }
-    .logout {
+   .logout {
       background: linear-gradient(135deg, #ef4444, #f87171);
     }
     #welcome {
@@ -60,6 +80,11 @@
   </style>
 </head>
 <body>
+  <!-- Upload Foto -->
+  <img class="profile-pic" id="profilePic" src="https://via.placeholder.com/120" alt="Foto Profil" onclick="document.getElementById('fileInput').click()">
+  <label class="upload-label" for="fileInput">Klik foto buat ganti</label>
+  <input type="file" id="fileInput" accept="image/*" onchange="loadFoto(event)">
+
   <button id="btnLogin" onclick="toggleLogin()">Login</button>
   <div id="welcome"></div>
   <footer>@ 2026 Hak Cipta Adrianus Marut</footer>
@@ -67,10 +92,22 @@
   <script>
     const btn = document.getElementById('btnLogin');
     const welcome = document.getElementById('welcome');
-    
+    const profilePic = document.getElementById('profilePic');
+
     let nama = localStorage.getItem('namaUser') || 'Bos';
     let isLogin = localStorage.getItem('isLogin') === 'true';
     updateUI();
+
+    function loadFoto(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          profilePic.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+      }
+    }
 
     function toggleLogin() {
       if (isLogin) {
@@ -78,10 +115,10 @@
         if (yakin) {
           isLogin = false;
           localStorage.setItem('isLogin', 'false');
-          
+
           welcome.textContent = `Sampai jumpa lagi, ${nama}! 👋`;
           btn.disabled = true;
-          
+
           setTimeout(() => {
             updateUI();
             btn.disabled = false;
@@ -90,16 +127,15 @@
       } else {
         isLogin = true;
         localStorage.setItem('isLogin', 'true');
-        
+
         if (!localStorage.getItem('namaUser')) {
           nama = prompt('Siapa nama lu bos?') || 'Bos';
           localStorage.setItem('namaUser', nama);
         }
-        
-        // Efek loading 1 detik
+
         btn.disabled = true;
         welcome.textContent = 'Sedang menghubungkan ke Google...';
-        
+
         setTimeout(() => {
           updateUI();
           btn.disabled = false;
