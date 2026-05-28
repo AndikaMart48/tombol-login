@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HACKER LOGIN v2.3</title>
+  <title>Login Modern</title>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -13,279 +13,114 @@
       height: 100vh;
       margin: 0;
       padding: 20px;
-      background: #000;
-      font-family: 'Courier New', monospace;
-      overflow: hidden;
-      position: relative;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Arial', sans-serif;
     }
-    canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      pointer-events: none; /* Biar tombol bisa diklik */
+   .container {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+      width: 100%;
+      max-width: 350px;
     }
-    #clock {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      color: #00ff00;
-      text-align: right;
-      text-shadow: 0 0 10px #00ff00;
-      z-index: 1;
-    }
-    #time {
-      font-size: clamp(28px, 8vw, 42px);
-      font-weight: bold;
-    }
-    #date {
-      font-size: clamp(12px, 3vw, 18px);
-      opacity: 0.8;
-    }
-  .profile-pic {
-      width: clamp(100px, 25vw, 130px);
-      height: clamp(100px, 25vw, 130px);
+   .profile-pic {
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
-      border: 2px solid #00ff00;
-      box-shadow: 0 0 20px #00ff00;
-      margin-bottom: 15px;
+      border: 4px solid #667eea;
       object-fit: cover;
-      cursor: pointer;
-      z-index: 1;
-      filter: hue-rotate(90deg) brightness(1.2);
-    }
-  .name-text {
-      color: #00ff00;
-      font-size: clamp(20px, 5vw, 28px);
-      font-weight: bold;
       margin-bottom: 20px;
-      text-shadow: 0 0 10px #00ff00;
-      text-transform: uppercase;
-      text-align: center;
-      z-index: 1;
-    }
-    #loginArea {
-      text-align: center;
-      width: 100%;
-      max-width: 320px;
-      z-index: 1;
-    }
-  .pin-label {
-      color: #00ff00;
-      font-size: clamp(14px, 4vw, 18px);
-      margin-bottom: 12px;
-      text-shadow: 0 0 5px #00ff00;
-    }
-  .pin-input {
-      padding: 12px 20px;
-      font-size: clamp(16px, 5vw, 20px);
-      border: 2px solid #00ff00;
-      border-radius: 0;
-      background: #000;
-      color: #00ff00;
-      text-align: center;
-      letter-spacing: 8px;
-      width: 100%;
-      max-width: 220px;
-      outline: none;
-      box-shadow: 0 0 20px #00ff00, inset 0 0 10px rgba(0,255,0,0.3);
-      display: block;
-      margin: 0 auto 20px auto;
-      position: relative;
-      z-index: 2;
-    }
-  .pin-input:focus {
-      background: #000;
-      box-shadow: 0 0 30px #00ff00, inset 0 0 15px rgba(0,255,0,0.5);
-    }
-  .pin-input::placeholder {
-      color: rgba(0, 255, 0, 0.4);
-      letter-spacing: normal;
-    }
-  .btn {
-      color: #00ff00;
-      border: 2px solid #00ff00;
-      padding: 12px 40px;
-      font-size: clamp(14px, 4vw, 16px);
-      border-radius: 0;
       cursor: pointer;
+    }
+   .name-text {
+      font-size: 24px;
       font-weight: bold;
-      background: rgba(0, 255, 0, 0.1);
-      transition: all 0.3s ease;
-      box-shadow: 0 0 10px #00ff00;
-      margin-top: 20px;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    input {
       width: 100%;
-      max-width: 200px;
-      text-transform: uppercase;
-      position: relative;
-      z-index: 2;
+      padding: 15px;
+      font-size: 18px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+      outline: none;
     }
-  .btn:hover {
-      background: rgba(0, 255, 0, 0.3);
-      box-shadow: 0 0 30px #00ff00;
+    input:focus {
+      border-color: #667eea;
     }
-  .forgot-pin {
-      color: #00ff00;
-      font-size: clamp(12px, 3vw, 14px);
+    button {
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #667eea;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background: #5568d3;
+    }
+   .btn-logout {
+      background: #ff4757;
+    }
+   .btn-logout:hover {
+      background: #ff3742;
+    }
+   .forgot {
+      color: #667eea;
       cursor: pointer;
       text-decoration: underline;
-      margin-top: 15px;
-      display: block;
-      opacity: 0.7;
-      position: relative;
-      z-index: 2;
+      font-size: 14px;
     }
-  .forgot-pin:hover {
-      opacity: 1;
-    }
-  .btn-logout {
-      border-color: #ff0000;
-      color: #ff0000;
-      box-shadow: 0 0 10px #ff0000;
-      background: rgba(255, 0, 0, 0.1);
-    }
-  .btn-logout:hover {
-      background: rgba(255, 0, 0, 0.3);
-      box-shadow: 0 0 30px #ff0000;
-    }
+   .hidden { display: none; }
     #welcome {
-      margin-top: 20px;
-      font-size: clamp(20px, 5vw, 28px);
-      color: #00ff00;
-      font-weight: bold;
-      text-shadow: 0 0 15px #00ff00;
-      animation: blink 0.5s ease;
-      text-align: center;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-10px); }
-      75% { transform: translateX(10px); }
-    }
-  .shake {
-      animation: shake 0.3s ease;
-    }
-    footer {
-      position: absolute;
-      bottom: 15px;
-      font-size: clamp(10px, 2.5vw, 14px);
-      color: #00ff00;
-      text-shadow: 0 0 5px #00ff00;
-      text-align: center;
-      z-index: 1;
-      opacity: 0.6;
-    }
-  .hidden {
-      display: none;
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #667eea;
     }
   </style>
 </head>
 <body>
-  <canvas id="matrix"></canvas>
+  <div class="container">
+    <img class="profile-pic" id="profilePic" src="attachment://27143753671978832" onclick="document.getElementById('fileInput').click()">
+    <input type="file" id="fileInput" accept="image/*" onchange="loadFoto(event)" style="display:none">
 
-  <div id="clock">
-    <div id="time"></div>
-    <div id="date"></div>
+    <div class="name-text" id="nameText">ANDIKA MART</div>
+
+    <div id="loginArea">
+      <input type="password" id="pinInput" placeholder="Masukkan PIN" maxlength="6">
+      <button onclick="cekPIN()">MASUK</button>
+      <div class="forgot" onclick="resetPIN()">Lupa PIN?</div>
+    </div>
+
+    <div id="logoutArea" class="hidden">
+      <div id="welcome"></div>
+      <button class="btn-logout" onclick="logout()">KELUAR</button>
+    </div>
   </div>
-
-  <img class="profile-pic" id="profilePic" src="attachment://27143753671978832" alt="Foto Profil" onclick="document.getElementById('fileInput').click()">
-  <input type="file" id="fileInput" accept="image/*" onchange="loadFoto(event)" style="display:none">
-
-  <div class="name-text" id="nameText">ANDIKA MART // ADMIN</div>
-
-  <div id="loginArea">
-    <div class="pin-label">[ ENTER ACCESS CODE ]</div>
-    <input type="password" class="pin-input" id="pinInput" placeholder="****" maxlength="6" inputmode="numeric">
-    <button class="btn" onclick="cekPIN()">[ ACCESS SYSTEM ]</button>
-    <div class="forgot-pin" onclick="resetPIN()">[ RESET ACCESS ]</div>
-  </div>
-
-  <div id="logoutArea" class="hidden">
-    <div id="welcome"></div>
-    <button class="btn btn-logout" onclick="logout()">[ TERMINATE SESSION ]</button>
-  </div>
-
-  <footer>ROOT@ANDIKA-MART:~# 2026</footer>
 
   <script>
-    localStorage.removeItem('wallpaperUser');
-    document.body.style.backgroundImage = 'none';
-    document.body.style.background = '#000';
-
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const chars = '01アカサタナハマヤラワガザダバパイキシチニヒミリギジヂビピウクスツヌフムユルグズヅブプエケセテネヘメレゲゼデベペオコソトノホモヨロゴゾドボポヴッン';
-    const fontSize = 14;
-    const columns = Math.floor(canvas.width / fontSize);
-    const drops = Array(columns).fill(1);
-
-    function drawMatrix() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#00ff00';
-      ctx.font = fontSize + 'px monospace';
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    }
-    setInterval(drawMatrix, 33);
-
     const profilePic = document.getElementById('profilePic');
     const nameText = document.getElementById('nameText');
     const pinInput = document.getElementById('pinInput');
     const welcome = document.getElementById('welcome');
     const loginArea = document.getElementById('loginArea');
     const logoutArea = document.getElementById('logoutArea');
-    const body = document.body;
 
-    let nama = localStorage.getItem('namaUser') || 'ANDIKA MART // ADMIN';
+    let nama = localStorage.getItem('namaUser') || 'ANDIKA MART';
     let isLogin = localStorage.getItem('isLogin') === 'true';
     nameText.textContent = nama;
 
     const fotoTersimpan = localStorage.getItem('fotoUser');
     if (fotoTersimpan) profilePic.src = fotoTersimpan;
-
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    function playBeep() {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.type = 'square';
-      osc.frequency.value = 1200;
-      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.05);
-    }
-
-    function vibrate() {
-      if (navigator.vibrate) navigator.vibrate(300);
-    }
-
-    function updateClock() {
-      const now = new Date();
-      const time = now.toLocaleTimeString('en-US', { hour12: false });
-      const date = now.toISOString().split('T')[0];
-      document.getElementById('time').textContent = time;
-      document.getElementById('date').textContent = date;
-    }
-    updateClock();
-    setInterval(updateClock, 1000);
 
     updateUI();
 
@@ -307,7 +142,7 @@
 
       if (!pinTersimpan) {
         if (pinMasukkan.length < 4) {
-          alert('[ ERROR: ACCESS CODE TOO SHORT ]');
+          alert('PIN minimal 4 angka');
           return;
         }
         localStorage.setItem('pinUser', pinMasukkan);
@@ -316,12 +151,8 @@
         if (pinMasukkan === pinTersimpan) {
           loginSukses();
         } else {
-          body.classList.add('shake');
-          vibrate();
-          setTimeout(() => body.classList.remove('shake'), 300);
-          alert('[ ACCESS DENIED: INVALID CODE ]');
+          alert('PIN salah!');
           pinInput.value = '';
-          pinInput.focus();
         }
       }
     }
@@ -331,36 +162,21 @@
       localStorage.setItem('isLogin', 'true');
       updateUI();
       setTimeout(() => {
-        let pilihan = prompt(`[ SYSTEM ACCESS GRANTED ]\n\nSelect target:\nIG, WA, FB, TIKTOK, YOUTUBE, GOOGLE`).toUpperCase();
-
+        let pilihan = prompt('Mau buka apa?\nIG, WA, FB, TIKTOK, YOUTUBE, GOOGLE').toUpperCase();
         let link = {
-          'IG': 'instagram://app',
-          'WA': 'whatsapp://',
-          'FB': 'fb://facewebmodal/f?href=https://www.facebook.com',
-          'TIKTOK': 'tiktok://',
-          'YOUTUBE': 'vnd.youtube://',
+          'IG': 'https://www.instagram.com',
+          'WA': 'https://web.whatsapp.com',
+          'FB': 'https://www.facebook.com',
+          'TIKTOK': 'https://www.tiktok.com',
+          'YOUTUBE': 'https://www.youtube.com',
           'GOOGLE': 'https://www.google.com'
         };
-
-        if (link[pilihan]) {
-          window.location.href = link[pilihan];
-          setTimeout(() => {
-            let webLink = {
-              'IG': 'https://www.instagram.com',
-              'WA': 'https://web.whatsapp.com',
-              'FB': 'https://www.facebook.com',
-              'TIKTOK': 'https://www.tiktok.com',
-              'YOUTUBE': 'https://www.youtube.com',
-              'GOOGLE': 'https://www.google.com'
-            };
-            window.location.href = webLink[pilihan];
-          }, 2000);
-        }
-      }, 1500);
+        if (link[pilihan]) window.location.href = link[pilihan];
+      }, 1000);
     }
 
     function logout() {
-      if (confirm(`[ TERMINATE SESSION FOR ${nama}? ]`)) {
+      if (confirm('Yakin mau keluar?')) {
         isLogin = false;
         localStorage.setItem('isLogin', 'false');
         pinInput.value = '';
@@ -369,11 +185,10 @@
     }
 
     function resetPIN() {
-      if (confirm('[ RESET ACCESS CODE? ]')) {
+      if (confirm('Reset PIN?')) {
         localStorage.removeItem('pinUser');
-        alert('[ ACCESS CODE RESET COMPLETE ]');
+        alert('PIN sudah direset');
         pinInput.value = '';
-        pinInput.focus();
       }
     }
 
@@ -381,26 +196,15 @@
       if (isLogin) {
         loginArea.classList.add('hidden');
         logoutArea.classList.remove('hidden');
-        welcome.textContent = `>>> WELCOME ${nama} <<<`;
+        welcome.textContent = `Selamat Datang, ${nama}`;
       } else {
         loginArea.classList.remove('hidden');
         logoutArea.classList.add('hidden');
-        welcome.textContent = '';
       }
     }
 
     pinInput.addEventListener('keypress', e => {
       if (e.key === 'Enter') cekPIN();
-      else if (!isNaN(e.key)) playBeep();
-    });
-
-    document.addEventListener('click', () => {
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-    }, { once: true });
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
     });
   </script>
 </body>
