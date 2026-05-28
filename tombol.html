@@ -14,7 +14,7 @@
       font-family: 'Segoe UI', Arial, sans-serif;
       overflow: hidden;
     }
-  .profile-pic {
+ .profile-pic {
       width: 130px;
       height: 130px;
       border-radius: 50%;
@@ -24,19 +24,19 @@
       object-fit: cover;
       cursor: pointer;
     }
- .name-text {
+.name-text {
       color: white;
       font-size: 28px;
       font-weight: 500;
       margin-bottom: 25px;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
- .pin-label {
+.pin-label {
       color: rgba(255,255,255,0.9);
       font-size: 18px;
       margin-bottom: 12px;
     }
- .pin-input {
+.pin-input {
       padding: 12px 20px;
       font-size: 20px;
       border: 2px solid rgba(255,255,255,0.3);
@@ -49,25 +49,25 @@
       outline: none;
       backdrop-filter: blur(10px);
     }
- .pin-input:focus {
+.pin-input:focus {
       border-color: rgba(255,255,255,0.8);
       background: rgba(255,255,255,0.25);
     }
- .pin-input::placeholder {
+.pin-input::placeholder {
       color: rgba(255,255,255,0.5);
       letter-spacing: normal;
     }
- .forgot-pin {
+.forgot-pin {
       color: rgba(255,255,255,0.7);
       font-size: 14px;
       margin-top: 15px;
       cursor: pointer;
       text-decoration: underline;
     }
- .forgot-pin:hover {
+.forgot-pin:hover {
       color: white;
     }
- .btn-login {
+.btn {
       margin-top: 25px;
       color: white;
       border: none;
@@ -80,13 +80,15 @@
       transition: all 0.3s ease;
       backdrop-filter: blur(10px);
     }
- .btn-login:hover {
+.btn:hover {
       background: rgba(255,255,255,0.3);
       transform: scale(1.05);
     }
- .btn-login:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+.btn-logout {
+      background: rgba(239, 68, 68, 0.7);
+    }
+.btn-logout:hover {
+      background: rgba(239, 68, 68, 0.9);
     }
     #welcome {
       margin-top: 30px;
@@ -107,7 +109,7 @@
       color: rgba(255, 255, 255, 0.6);
       text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     }
- .confetti {
+.confetti {
       position: absolute;
       width: 10px;
       height: 10px;
@@ -121,6 +123,9 @@
         opacity: 0;
       }
     }
+.hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -129,13 +134,20 @@
 
   <div class="name-text" id="nameText">Andrianus Marut</div>
 
-  <div class="pin-label">Masukkan PIN Anda</div>
-  <input type="password" class="pin-input" id="pinInput" placeholder="PIN" maxlength="6">
+  <!-- Area PIN - muncul pas belum login -->
+  <div id="loginArea">
+    <div class="pin-label">Masukkan PIN Anda</div>
+    <input type="password" class="pin-input" id="pinInput" placeholder="PIN" maxlength="6">
+    <div class="forgot-pin" onclick="resetPIN()">Lupa PIN</div>
+    <button class="btn" onclick="cekPIN()">Masuk</button>
+  </div>
 
-  <div class="forgot-pin" onclick="resetPIN()">Lupa PIN</div>
-  <button class="btn-login" onclick="cekPIN()">Masuk</button>
+  <!-- Area Logout - muncul pas udah login -->
+  <div id="logoutArea" class="hidden">
+    <div id="welcome"></div>
+    <button class="btn btn-logout" onclick="logout()">Logout</button>
+  </div>
 
-  <div id="welcome"></div>
   <footer>@ 2026 Hak Cipta Adrianus Marut</footer>
 
   <script>
@@ -143,6 +155,8 @@
     const nameText = document.getElementById('nameText');
     const pinInput = document.getElementById('pinInput');
     const welcome = document.getElementById('welcome');
+    const loginArea = document.getElementById('loginArea');
+    const logoutArea = document.getElementById('logoutArea');
 
     let nama = localStorage.getItem('namaUser') || 'Andrianus Marut';
     let isLogin = localStorage.getItem('isLogin') === 'true';
@@ -153,6 +167,9 @@
     if (fotoTersimpan) {
       profilePic.src = fotoTersimpan;
     }
+
+    // Update tampilan pas pertama buka
+    updateUI();
 
     function loadFoto(event) {
       const file = event.target.files[0];
@@ -184,7 +201,6 @@
       let pinMasukkan = pinInput.value;
 
       if (!pinTersimpan) {
-        // PIN belum diset, minta buat PIN baru
         if (pinMasukkan.length < 4) {
           alert('PIN minimal 4 angka bos!');
           return;
@@ -192,7 +208,6 @@
         localStorage.setItem('pinUser', pinMasukkan);
         loginSukses();
       } else {
-        // Cek PIN
         if (pinMasukkan === pinTersimpan) {
           loginSukses();
         } else {
@@ -206,11 +221,21 @@
     function loginSukses() {
       isLogin = true;
       localStorage.setItem('isLogin', 'true');
-      welcome.textContent = `Halo ${nama}, lu udah login! 🎉`;
       createConfetti();
+      updateUI();
       setTimeout(() => {
         window.open('https://www.google.com', '_blank');
       }, 500);
+    }
+
+    function logout() {
+      let yakin = confirm(`Yakin mau logout, ${nama}?`);
+      if (yakin) {
+        isLogin = false;
+        localStorage.setItem('isLogin', 'false');
+        pinInput.value = '';
+        updateUI();
+      }
     }
 
     function resetPIN() {
@@ -223,7 +248,18 @@
       }
     }
 
-    // Enter buat submit
+    function updateUI() {
+      if (isLogin) {
+        loginArea.classList.add('hidden');
+        logoutArea.classList.remove('hidden');
+        welcome.textContent = `Halo ${nama}, lu udah login! 🎉`;
+      } else {
+        loginArea.classList.remove('hidden');
+        logoutArea.classList.add('hidden');
+        welcome.textContent = '';
+      }
+    }
+
     pinInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         cekPIN();
