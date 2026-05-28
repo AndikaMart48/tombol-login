@@ -14,7 +14,7 @@
       font-family: 'Segoe UI', Arial, sans-serif;
       overflow: hidden;
     }
- .profile-pic {
+  .profile-pic {
       width: 130px;
       height: 130px;
       border-radius: 50%;
@@ -24,19 +24,19 @@
       object-fit: cover;
       cursor: pointer;
     }
-.name-text {
+  .name-text {
       color: white;
       font-size: 28px;
       font-weight: 500;
       margin-bottom: 25px;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
-.pin-label {
+  .pin-label {
       color: rgba(255,255,255,0.9);
       font-size: 18px;
       margin-bottom: 12px;
     }
-.pin-input {
+  .pin-input {
       padding: 12px 20px;
       font-size: 20px;
       border: 2px solid rgba(255,255,255,0.3);
@@ -49,25 +49,25 @@
       outline: none;
       backdrop-filter: blur(10px);
     }
-.pin-input:focus {
+  .pin-input:focus {
       border-color: rgba(255,255,255,0.8);
       background: rgba(255,255,255,0.25);
     }
-.pin-input::placeholder {
+  .pin-input::placeholder {
       color: rgba(255,255,255,0.5);
       letter-spacing: normal;
     }
-.forgot-pin {
+  .forgot-pin {
       color: rgba(255,255,255,0.7);
       font-size: 14px;
       margin-top: 15px;
       cursor: pointer;
       text-decoration: underline;
     }
-.forgot-pin:hover {
+  .forgot-pin:hover {
       color: white;
     }
-.btn {
+  .btn {
       margin-top: 25px;
       color: white;
       border: none;
@@ -80,14 +80,18 @@
       transition: all 0.3s ease;
       backdrop-filter: blur(10px);
     }
-.btn:hover {
+  .btn:hover {
       background: rgba(255,255,255,0.3);
       transform: scale(1.05);
     }
-.btn-logout {
+  .btn-logout {
       background: rgba(239, 68, 68, 0.7);
+      margin-top: 35px; /* jarak dari tulisan Halo Bos */
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
-.btn-logout:hover {
+  .btn-logout:hover {
       background: rgba(239, 68, 68, 0.9);
     }
     #welcome {
@@ -109,7 +113,7 @@
       color: rgba(255, 255, 255, 0.6);
       text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     }
-.confetti {
+  .confetti {
       position: absolute;
       width: 10px;
       height: 10px;
@@ -123,7 +127,7 @@
         opacity: 0;
       }
     }
-.hidden {
+  .hidden {
       display: none;
     }
   </style>
@@ -168,7 +172,6 @@
       profilePic.src = fotoTersimpan;
     }
 
-    // Update tampilan pas pertama buka
     updateUI();
 
     function loadFoto(event) {
