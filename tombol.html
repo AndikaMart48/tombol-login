@@ -2,156 +2,237 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Modern</title>
+  <title>Employee Portal</title>
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      min-height: 100vh;
       padding: 20px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      font-family: 'Arial', sans-serif;
+      transition: background 0.5s ease;
     }
-   .container {
-      background: white;
-      padding: 40px 30px;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      text-align: center;
+.card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+      padding: 50px 40px;
       width: 100%;
-      max-width: 350px;
+      max-width: 380px;
+      text-align: center;
+      backdrop-filter: blur(10px);
     }
-   .profile-pic {
-      width: 120px;
-      height: 120px;
+.logo {
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
-      border: 4px solid #667eea;
+      border: 3px solid #2563eb;
       object-fit: cover;
       margin-bottom: 20px;
       cursor: pointer;
+      background: #e2e8f0;
     }
-   .name-text {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 30px;
-      color: #333;
+.title {
+      font-size: 26px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+.subtitle {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 35px;
     }
     input {
       width: 100%;
-      padding: 15px;
-      font-size: 18px;
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      text-align: center;
-      margin-bottom: 20px;
-      outline: none;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      transition: border 0.2s;
     }
     input:focus {
-      border-color: #667eea;
+      outline: none;
+      border-color: #2563eb;
     }
     button {
       width: 100%;
-      padding: 15px;
-      font-size: 16px;
-      border: none;
-      border-radius: 10px;
-      background: #667eea;
+      padding: 14px;
+      background: #2563eb;
       color: white;
-      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
-      margin-bottom: 10px;
+      transition: background 0.2s;
     }
     button:hover {
-      background: #5568d3;
+      background: #1d4ed8;
     }
-   .btn-logout {
-      background: #ff4757;
+.btn-secondary {
+      background: #64748b;
+      margin-top: 12px;
     }
-   .btn-logout:hover {
-      background: #ff3742;
+.btn-secondary:hover {
+      background: #475569;
     }
-   .forgot {
-      color: #667eea;
-      cursor: pointer;
-      text-decoration: underline;
+.btn-tertiary {
+      background: #8b5cf6;
+      margin-top: 12px;
       font-size: 14px;
+      padding: 12px;
     }
-   .hidden { display: none; }
-    #welcome {
+.link {
+      color: #2563eb;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 15px;
+      display: inline-block;
+    }
+.hidden { display: none; }
+.welcome {
       font-size: 22px;
-      margin-bottom: 20px;
-      color: #667eea;
+      color: #1e293b;
+      margin-bottom: 25px;
+    }
+.status {
+      font-size: 13px;
+      color: #059669;
+      margin-bottom: 15px;
+      font-weight: 500;
+      min-height: 18px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img class="profile-pic" id="profilePic" src="attachment://27143753671978832" onclick="document.getElementById('fileInput').click()">
+  <div class="card">
+    <img class="logo" id="profilePic" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='35' r='15' fill='%2394a3b8'/%3E%3Cpath d='M50 60 Q30 60 30 85 L70 85 Q70 60 50 60 Z' fill='%2394a3b8'/%3E%3C/svg%3E" onclick="document.getElementById('fileInput').click()">
     <input type="file" id="fileInput" accept="image/*" onchange="loadFoto(event)" style="display:none">
 
-    <div class="name-text" id="nameText">ANDIKA MART</div>
+    <div class="title">Employee Portal</div>
+    <div class="subtitle">Please identify yourself</div>
 
     <div id="loginArea">
-      <input type="password" id="pinInput" placeholder="Masukkan PIN" maxlength="6">
-      <button onclick="cekPIN()">MASUK</button>
-      <div class="forgot" onclick="resetPIN()">Lupa PIN?</div>
+      <div class="status" id="statusMsg"></div>
+      <input type="text" id="nameInput" placeholder="Who are you?" maxlength="30">
+      <input type="password" id="pinInput" placeholder="Enter your PIN" maxlength="6">
+      <button onclick="cekPIN()">Sign In</button>
+      <button class="btn-tertiary" onclick="document.getElementById('wallpaperInput').click()">Change Wallpaper</button>
+      <input type="file" id="wallpaperInput" accept="image/*" onchange="loadWallpaper(event)" style="display:none">
+      <div class="link" onclick="resetData()">Reset All Data</div>
     </div>
 
     <div id="logoutArea" class="hidden">
-      <div id="welcome"></div>
-      <button class="btn-logout" onclick="logout()">KELUAR</button>
+      <div class="welcome" id="welcome"></div>
+      <button onclick="bukaApp()">Access Applications</button>
+      <button class="btn-secondary" onclick="logout()">Sign Out</button>
     </div>
   </div>
 
   <script>
     const profilePic = document.getElementById('profilePic');
-    const nameText = document.getElementById('nameText');
+    const nameInput = document.getElementById('nameInput');
     const pinInput = document.getElementById('pinInput');
     const welcome = document.getElementById('welcome');
+    const statusMsg = document.getElementById('statusMsg');
     const loginArea = document.getElementById('loginArea');
     const logoutArea = document.getElementById('logoutArea');
 
-    let nama = localStorage.getItem('namaUser') || 'ANDIKA MART';
-    let isLogin = localStorage.getItem('isLogin') === 'true';
-    nameText.textContent = nama;
+    const defaultAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='35' r='15' fill='%2394a3b8'/%3E%3Cpath d='M50 60 Q30 60 30 85 L70 85 Q70 60 50 60 Z' fill='%2394a3b8'/%3E%3C/svg%3E";
 
-    const fotoTersimpan = localStorage.getItem('fotoUser');
-    if (fotoTersimpan) profilePic.src = fotoTersimpan;
+    let currentName = '';
+    let isLogin = localStorage.getItem('isLogin') === 'true';
+
+    // Load wallpaper tersimpan
+    const savedWallpaper = localStorage.getItem('wallpaper');
+    if (savedWallpaper) {
+      document.body.style.backgroundImage = `url(${savedWallpaper})`;
+    }
+
+    if (isLogin) {
+      currentName = localStorage.getItem('currentUser') || '';
+      loadUserPhoto(currentName);
+    }
 
     updateUI();
 
     function loadFoto(event) {
+      if (!currentName) return;
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = e => {
           profilePic.src = e.target.result;
-          localStorage.setItem('fotoUser', e.target.result);
+          let photoKey = 'photo_' + currentName.toLowerCase();
+          localStorage.setItem(photoKey, e.target.result);
         }
         reader.readAsDataURL(file);
       }
     }
 
+    function loadWallpaper(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          document.body.style.backgroundImage = `url(${e.target.result})`;
+          localStorage.setItem('wallpaper', e.target.result);
+          statusMsg.textContent = 'Wallpaper changed successfully';
+          statusMsg.style.color = '#059669';
+          setTimeout(() => statusMsg.textContent = '', 3000);
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function loadUserPhoto(nama) {
+      if (!nama) {
+        profilePic.src = defaultAvatar;
+        return;
+      }
+      let photoKey = 'photo_' + nama.toLowerCase();
+      let fotoTersimpan = localStorage.getItem(photoKey);
+      profilePic.src = fotoTersimpan || defaultAvatar;
+    }
+
     function cekPIN() {
-      let pinTersimpan = localStorage.getItem('pinUser');
+      let namaMasukkan = nameInput.value.trim();
       let pinMasukkan = pinInput.value;
+
+      if (!namaMasukkan) {
+        alert('Please tell us who you are');
+        return;
+      }
+
+      currentName = namaMasukkan;
+      let pinKey = 'pin_' + namaMasukkan.toLowerCase();
+      let pinTersimpan = localStorage.getItem(pinKey);
 
       if (!pinTersimpan) {
         if (pinMasukkan.length < 4) {
-          alert('PIN minimal 4 angka');
+          alert('PIN must be at least 4 digits');
           return;
         }
-        localStorage.setItem('pinUser', pinMasukkan);
+        localStorage.setItem(pinKey, pinMasukkan);
+        statusMsg.textContent = `New account created for ${namaMasukkan}`;
+        statusMsg.style.color = '#059669';
+        loadUserPhoto(namaMasukkan);
         loginSukses();
       } else {
         if (pinMasukkan === pinTersimpan) {
+          statusMsg.textContent = '';
+          loadUserPhoto(namaMasukkan);
           loginSukses();
         } else {
-          alert('PIN salah!');
+          alert(`Wrong PIN for ${namaMasukkan}. Try again.`);
           pinInput.value = '';
         }
       }
@@ -160,35 +241,48 @@
     function loginSukses() {
       isLogin = true;
       localStorage.setItem('isLogin', 'true');
+      localStorage.setItem('currentUser', currentName);
       updateUI();
-      setTimeout(() => {
-        let pilihan = prompt('Mau buka apa?\nIG, WA, FB, TIKTOK, YOUTUBE, GOOGLE').toUpperCase();
-        let link = {
-          'IG': 'https://www.instagram.com',
-          'WA': 'https://web.whatsapp.com',
-          'FB': 'https://www.facebook.com',
-          'TIKTOK': 'https://www.tiktok.com',
-          'YOUTUBE': 'https://www.youtube.com',
-          'GOOGLE': 'https://www.google.com'
-        };
-        if (link[pilihan]) window.location.href = link[pilihan];
-      }, 1000);
+    }
+
+    function bukaApp() {
+      let pilihan = prompt('Select application:\nInstagram, WhatsApp, Facebook, TikTok, YouTube, Google').toUpperCase();
+      let link = {
+        'INSTAGRAM': 'https://www.instagram.com',
+        'WHATSAPP': 'https://web.whatsapp.com',
+        'FACEBOOK': 'https://www.facebook.com',
+        'TIKTOK': 'https://www.tiktok.com',
+        'YOUTUBE': 'https://www.youtube.com',
+        'GOOGLE': 'https://www.google.com'
+      };
+      if (link[pilihan]) window.open(link[pilihan], '_blank');
     }
 
     function logout() {
-      if (confirm('Yakin mau keluar?')) {
+      if (confirm(`Sign out ${currentName}?`)) {
         isLogin = false;
         localStorage.setItem('isLogin', 'false');
+        nameInput.value = '';
         pinInput.value = '';
+        currentName = '';
+        statusMsg.textContent = '';
+        profilePic.src = defaultAvatar;
         updateUI();
       }
     }
 
-    function resetPIN() {
-      if (confirm('Reset PIN?')) {
-        localStorage.removeItem('pinUser');
-        alert('PIN sudah direset');
+    function resetData() {
+      if (confirm('Reset all user data and wallpaper? This cannot be undone.')) {
+        localStorage.clear();
+        alert('All data has been reset');
+        nameInput.value = '';
         pinInput.value = '';
+        profilePic.src = defaultAvatar;
+        document.body.style.backgroundImage = 'none';
+        currentName = '';
+        isLogin = false;
+        statusMsg.textContent = '';
+        updateUI();
       }
     }
 
@@ -196,7 +290,7 @@
       if (isLogin) {
         loginArea.classList.add('hidden');
         logoutArea.classList.remove('hidden');
-        welcome.textContent = `Selamat Datang, ${nama}`;
+        welcome.textContent = `Welcome, ${currentName}`;
       } else {
         loginArea.classList.remove('hidden');
         logoutArea.classList.add('hidden');
@@ -205,6 +299,12 @@
 
     pinInput.addEventListener('keypress', e => {
       if (e.key === 'Enter') cekPIN();
+    });
+
+    nameInput.addEventListener('input', e => {
+      let nama = e.target.value.trim();
+      if (nama) loadUserPhoto(nama);
+      else profilePic.src = defaultAvatar;
     });
   </script>
 </body>
