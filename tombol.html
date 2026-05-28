@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tombol Login Keren</title>
+  <title>Login Windows KW</title>
   <style>
     body {
       display: flex;
@@ -10,53 +10,83 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      overflow: hidden;
     }
-   .profile-pic {
-      width: 120px;
-      height: 120px;
+  .profile-pic {
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
-      border: 4px solid white;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      margin-bottom: 15px;
+      border: 3px solid rgba(255,255,255,0.8);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      margin-bottom: 20px;
       object-fit: cover;
       cursor: pointer;
     }
-   .upload-label {
+ .name-text {
       color: white;
-      font-size: 14px;
+      font-size: 28px;
+      font-weight: 500;
       margin-bottom: 25px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+ .pin-label {
+      color: rgba(255,255,255,0.9);
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+ .pin-input {
+      padding: 12px 20px;
+      font-size: 20px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.15);
+      color: white;
+      text-align: center;
+      letter-spacing: 8px;
+      width: 220px;
+      outline: none;
+      backdrop-filter: blur(10px);
+    }
+ .pin-input:focus {
+      border-color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.25);
+    }
+ .pin-input::placeholder {
+      color: rgba(255,255,255,0.5);
+      letter-spacing: normal;
+    }
+ .forgot-pin {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      margin-top: 15px;
       cursor: pointer;
       text-decoration: underline;
     }
-    input[type="file"] {
-      display: none;
+ .forgot-pin:hover {
+      color: white;
     }
-    button {
+ .btn-login {
+      margin-top: 25px;
       color: white;
       border: none;
-      padding: 18px 50px;
-      font-size: 20px;
-      border-radius: 50px;
+      padding: 12px 40px;
+      font-size: 16px;
+      border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
+      background: rgba(255,255,255,0.2);
       transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      backdrop-filter: blur(10px);
     }
-    button:hover {
+ .btn-login:hover {
+      background: rgba(255,255,255,0.3);
       transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     }
-    button:disabled {
-      opacity: 0.6;
+ .btn-login:disabled {
+      opacity: 0.5;
       cursor: not-allowed;
-    }
-   .login {
-      background: linear-gradient(135deg, #8b5cf6, #a855f7);
-    }
-   .logout {
-      background: linear-gradient(135deg, #ef4444, #f87171);
     }
     #welcome {
       margin-top: 30px;
@@ -74,35 +104,55 @@
       position: absolute;
       bottom: 20px;
       font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.6);
       text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+ .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      animation: fall 3s linear forwards;
+      z-index: 1;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <img class="profile-pic" id="profilePic" src="https://via.placeholder.com/120" alt="Foto Profil" onclick="document.getElementById('fileInput').click()">
-  <label class="upload-label" for="fileInput">Klik foto buat ganti</label>
-  <input type="file" id="fileInput" accept="image/*" onchange="loadFoto(event)">
+  <img class="profile-pic" id="profilePic" src="attachment://0" alt="Foto Profil" onclick="document.getElementById('fileInput').click()">
+  <input type="file" id="fileInput" accept="image/*" onchange="loadFoto(event)" style="display:none">
 
-  <button id="btnLogin" onclick="toggleLogin()">Login</button>
+  <div class="name-text" id="nameText">Andrianus Marut</div>
+
+  <div class="pin-label">Masukkan PIN Anda</div>
+  <input type="password" class="pin-input" id="pinInput" placeholder="PIN" maxlength="6">
+
+  <div class="forgot-pin" onclick="resetPIN()">Lupa PIN</div>
+  <button class="btn-login" onclick="cekPIN()">Masuk</button>
+
   <div id="welcome"></div>
   <footer>@ 2026 Hak Cipta Adrianus Marut</footer>
 
   <script>
-    const btn = document.getElementById('btnLogin');
-    const welcome = document.getElementById('welcome');
     const profilePic = document.getElementById('profilePic');
+    const nameText = document.getElementById('nameText');
+    const pinInput = document.getElementById('pinInput');
+    const welcome = document.getElementById('welcome');
 
-    let nama = localStorage.getItem('namaUser') || 'Bos';
+    let nama = localStorage.getItem('namaUser') || 'Andrianus Marut';
     let isLogin = localStorage.getItem('isLogin') === 'true';
 
-    // Load foto yang udah disimpan
+    nameText.textContent = nama;
+
     const fotoTersimpan = localStorage.getItem('fotoUser');
     if (fotoTersimpan) {
       profilePic.src = fotoTersimpan;
     }
-
-    updateUI();
 
     function loadFoto(event) {
       const file = event.target.files[0];
@@ -110,59 +160,75 @@
         const reader = new FileReader();
         reader.onload = function(e) {
           profilePic.src = e.target.result;
-          // Simpan ke localStorage biar nggak hilang pas refresh
           localStorage.setItem('fotoUser', e.target.result);
         }
         reader.readAsDataURL(file);
       }
     }
 
-    function toggleLogin() {
-      if (isLogin) {
-        let yakin = confirm(`Yakin mau logout, ${nama}?`);
-        if (yakin) {
-          isLogin = false;
-          localStorage.setItem('isLogin', 'false');
-
-          welcome.textContent = `Sampai jumpa lagi, ${nama}! 👋`;
-          btn.disabled = true;
-
-          setTimeout(() => {
-            updateUI();
-            btn.disabled = false;
-          }, 2000);
-        }
-      } else {
-        isLogin = true;
-        localStorage.setItem('isLogin', 'true');
-
-        if (!localStorage.getItem('namaUser')) {
-          nama = prompt('Siapa nama lu bos?') || 'Bos';
-          localStorage.setItem('namaUser', nama);
-        }
-
-        btn.disabled = true;
-        welcome.textContent = 'Sedang menghubungkan ke Google...';
-
-        setTimeout(() => {
-          updateUI();
-          btn.disabled = false;
-          window.open('https://www.google.com', '_blank');
-        }, 1000);
+    function createConfetti() {
+      const colors = ['#ff0', '#f0f', '#0ff', '#f00', '#0f0', '#00f', '#ff8c00'];
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
       }
     }
 
-    function updateUI() {
-      if (isLogin) {
-        btn.textContent = 'Logout';
-        btn.className = 'logout';
-        welcome.textContent = `Halo ${nama}, lu udah login! 🎉`;
+    function cekPIN() {
+      let pinTersimpan = localStorage.getItem('pinUser');
+      let pinMasukkan = pinInput.value;
+
+      if (!pinTersimpan) {
+        // PIN belum diset, minta buat PIN baru
+        if (pinMasukkan.length < 4) {
+          alert('PIN minimal 4 angka bos!');
+          return;
+        }
+        localStorage.setItem('pinUser', pinMasukkan);
+        loginSukses();
       } else {
-        btn.textContent = 'Login';
-        btn.className = 'login';
-        welcome.textContent = '';
+        // Cek PIN
+        if (pinMasukkan === pinTersimpan) {
+          loginSukses();
+        } else {
+          alert('PIN salah bos! Coba lagi.');
+          pinInput.value = '';
+          pinInput.focus();
+        }
       }
     }
+
+    function loginSukses() {
+      isLogin = true;
+      localStorage.setItem('isLogin', 'true');
+      welcome.textContent = `Halo ${nama}, lu udah login! 🎉`;
+      createConfetti();
+      setTimeout(() => {
+        window.open('https://www.google.com', '_blank');
+      }, 500);
+    }
+
+    function resetPIN() {
+      let yakin = confirm('Yakin mau reset PIN? PIN lama bakal kehapus.');
+      if (yakin) {
+        localStorage.removeItem('pinUser');
+        alert('PIN udah direset. Ketik PIN baru pas login lagi.');
+        pinInput.value = '';
+        pinInput.focus();
+      }
+    }
+
+    // Enter buat submit
+    pinInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        cekPIN();
+      }
+    });
   </script>
 </body>
 </html>
