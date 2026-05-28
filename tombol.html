@@ -2,235 +2,269 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Portal</title>
+  <title>Windows Login</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #0f172a;
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"%3E%3Cdefs%3E%3ClinearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"%3E%3Cstop offset="0%25" style="stop-color:%230066CC;stop-opacity:1" /%3E%3Cstop offset="100%25" style="stop-color:%23004B8C;stop-opacity:1" /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width="1920" height="1080" fill="url(%23grad)"/%3E%3C/svg%3E') center/cover no-repeat fixed;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      transition: background 0.5s ease;
+      overflow: hidden;
     }
-.card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 12px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
-      padding: 50px 40px;
-      width: 100%;
-      max-width: 400px;
+   .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(20px);
+    }
+   .container {
+      position: relative;
+      z-index: 10;
       text-align: center;
-      backdrop-filter: blur(12px);
+      color: white;
+      max-width: 400px;
+      width: 90%;
     }
-.logo {
-      width: 110px;
-      height: 110px;
+   .clock {
+      font-size: 96px;
+      font-weight: 200;
+      margin-bottom: 5px;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+    }
+   .date {
+      font-size: 20px;
+      font-weight: 300;
+      margin-bottom: 60px;
+      opacity: 0.9;
+    }
+   .userTile {
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 40px 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      transition: all 0.3s;
+    }
+   .userTile:hover {
+      background: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+   .avatar {
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
-      border: 4px solid #3b82f6;
+      border: 4px solid rgba(255,255,255,0.3);
       object-fit: cover;
       margin-bottom: 20px;
       cursor: pointer;
-      background: #e2e8f0;
+      transition: all 0.3s;
     }
-.title {
+   .avatar:hover {
+      border-color: white;
+      transform: scale(1.05);
+    }
+   .userName {
       font-size: 28px;
-      font-weight: 700;
-      color: #1e293b;
-      margin-bottom: 5px;
-    }
-.clock {
-      font-size: 18px;
-      color: #64748b;
+      font-weight: 400;
       margin-bottom: 25px;
-      font-weight: 500;
-    }
-.subtitle {
-      font-size: 14px;
-      color: #64748b;
-      margin-bottom: 30px;
     }
     input {
       width: 100%;
-      padding: 14px 16px;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.3);
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 4px;
+      color: white;
       font-size: 16px;
       margin-bottom: 15px;
-      transition: border 0.2s;
+    }
+    input::placeholder {
+      color: rgba(255,255,255,0.6);
     }
     input:focus {
       outline: none;
-      border-color: #3b82f6;
+      border-color: white;
+      background: rgba(0,0,0,0.5);
     }
     button {
       width: 100%;
-      padding: 14px;
-      background: #3b82f6;
+      padding: 12px;
+      background: #0078d4;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 4px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
     }
     button:hover {
-      background: #2563eb;
-      transform: translateY(-1px);
+      background: #106ebe;
     }
-.btn-secondary {
-      background: #64748b;
-      margin-top: 12px;
+   .backBtn {
+      background: rgba(255,255,255,0.2);
+      margin-top: 10px;
     }
-.btn-secondary:hover {
-      background: #475569;
+   .backBtn:hover {
+      background: rgba(255,255,255,0.3);
     }
-.btn-tertiary {
-      background: #8b5cf6;
-      margin-top: 12px;
-      font-size: 14px;
-      padding: 12px;
+   .appGrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 30px;
     }
-.link {
-      color: #3b82f6;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 15px;
-      display: inline-block;
-    }
-.hidden { display: none; }
-.welcome {
-      font-size: 24px;
-      color: #1e293b;
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-.status {
+   .appBtn {
+      padding: 12px 8px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      color: white;
       font-size: 13px;
-      color: #059669;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+   .appBtn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+   .hidden { display: none; }
+   .status {
+      font-size: 13px;
       margin-bottom: 15px;
-      font-weight: 500;
       min-height: 18px;
     }
-.backBtn {
-      background: #ef4444;
+   .changeUser {
       margin-top: 20px;
-    }
-.backBtn:hover {
-      background: #dc2626;
-    }
-.appGrid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-top: 25px;
-    }
-.appBtn {
-      padding: 12px;
       font-size: 14px;
-      background: #f1f5f9;
-      color: #1e293b;
-      border: 2px solid #e2e8f0;
+      color: rgba(255,255,255,0.8);
+      cursor: pointer;
+      text-decoration: underline;
     }
-.appBtn:hover {
-      background: #e2e8f0;
-      transform: translateY(-2px);
+   .copyright {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+    }
+   .changeWallpaper {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <img class="logo" id="profilePic" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='110' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='35' r='15' fill='%2394a3b8'/%3E%3Cpath d='M50 60 Q30 60 30 85 L70 85 Q70 60 50 60 Z' fill='%2394a3b8'/%3E%3C/svg%3E" onclick="document.getElementById('fileInput').click()">
-    <input type="file" id="fileInput" accept="image/*" onchange="loadFoto(event)" style="display:none">
+  <div class="overlay"></div>
 
-    <div class="title">Employee Portal</div>
-    <div class="clock" id="clock">Loading...</div>
-    <div class="subtitle">Please identify yourself</div>
+  <div class="container">
+    <div class="clock" id="clock">00:00:00</div>
+    <div class="date" id="date">Loading...</div>
 
-    <div id="loginArea">
+    <div id="loginArea" class="userTile">
+      <img class="avatar" id="avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='35' r='15' fill='%23fff'/%3E%3Cpath d='M50 60 Q30 60 30 85 L70 85 Q70 60 50 60 Z' fill='%23fff'/%3E%3C/svg%3E" onclick="document.getElementById('fileInput').click()">
+      <input type="file" id="fileInput" accept="image/*" onchange="loadFoto(event)" style="display:none">
+
       <div class="status" id="statusMsg"></div>
-      <input type="text" id="nameInput" placeholder="Who are you?" maxlength="30">
+      <input type="text" id="nameInput" placeholder="Enter your name" maxlength="30">
       <input type="password" id="pinInput" placeholder="Enter your PIN" maxlength="6">
-      <button onclick="cekPIN()">Sign In</button>
-      <button class="btn-tertiary" onclick="document.getElementById('wallpaperInput').click()">Change Wallpaper</button>
-      <input type="file" id="wallpaperInput" accept="image/*" onchange="loadWallpaper(event)" style="display:none">
-      <div class="link" onclick="resetData()">Reset All Data</div>
+      <button onclick="login()">Sign in</button>
     </div>
 
-    <div id="logoutArea" class="hidden">
-      <div class="welcome" id="welcome"></div>
+    <div id="desktopArea" class="userTile hidden">
+      <img class="avatar" id="avatar2" src="" onclick="document.getElementById('fileInput2').click()">
+      <input type="file" id="fileInput2" accept="image/*" onchange="loadFoto2(event)" style="display:none">
+
+      <div class="userName" id="userName">User</div>
+
       <div class="appGrid">
-        <button class="appBtn" onclick="bukaApp('instagram')">Instagram</button>
-        <button class="appBtn" onclick="bukaApp('whatsapp')">WhatsApp</button>
-        <button class="appBtn" onclick="bukaApp('facebook')">Facebook</button>
-        <button class="appBtn" onclick="bukaApp('tiktok')">TikTok</button>
-        <button class="appBtn" onclick="bukaApp('youtube')">YouTube</button>
-        <button class="appBtn" onclick="bukaApp('google')">Google</button>
+        <div class="appBtn" onclick="bukaApp('instagram')">Instagram</div>
+        <div class="appBtn" onclick="bukaApp('whatsapp')">WhatsApp</div>
+        <div class="appBtn" onclick="bukaApp('facebook')">Facebook</div>
+        <div class="appBtn" onclick="bukaApp('tiktok')">TikTok</div>
+        <div class="appBtn" onclick="bukaApp('youtube')">YouTube</div>
+        <div class="appBtn" onclick="bukaApp('google')">Google</div>
       </div>
+
       <button class="backBtn" onclick="logout()">Back to Login</button>
     </div>
+
+    <div class="changeUser" onclick="resetData()">Not you? Change user</div>
   </div>
 
+  <button class="changeWallpaper" onclick="document.getElementById('wallpaperInput').click()">Change Wallpaper</button>
+  <input type="file" id="wallpaperInput" accept="image/*" onchange="loadWallpaper(event)" style="display:none">
+
+  <div class="copyright">© 2025 ADRIANUS MARUT</div>
+
   <script>
-    const profilePic = document.getElementById('profilePic');
+    const avatar = document.getElementById('avatar');
+    const avatar2 = document.getElementById('avatar2');
     const nameInput = document.getElementById('nameInput');
     const pinInput = document.getElementById('pinInput');
-    const welcome = document.getElementById('welcome');
     const statusMsg = document.getElementById('statusMsg');
     const loginArea = document.getElementById('loginArea');
-    const logoutArea = document.getElementById('logoutArea');
+    const desktopArea = document.getElementById('desktopArea');
+    const userName = document.getElementById('userName');
     const clockEl = document.getElementById('clock');
+    const dateEl = document.getElementById('date');
 
-    const defaultAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='110' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='35' r='15' fill='%2394a3b8'/%3E%3Cpath d='M50 60 Q30 60 30 85 L70 85 Q70 60 50 60 Z' fill='%2394a3b8'/%3E%3C/svg%3E";
+    const defaultAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='35' r='15' fill='%23fff'/%3E%3Cpath d='M50 60 Q30 60 30 85 L70 85 Q70 60 50 60 Z' fill='%23fff'/%3E%3C/svg%3E";
 
-    let currentName = '';
+    let currentName = localStorage.getItem('currentUser') || '';
     let isLogin = localStorage.getItem('isLogin') === 'true';
 
-    // Jam real-time
     function updateClock() {
       const now = new Date();
-      const time = now.toLocaleTimeString('en-US', { hour12: false });
-      const date = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-      clockEl.textContent = `${date} | ${time}`;
+      clockEl.textContent = now.toLocaleTimeString('en-US', { hour12: false });
+      dateEl.textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
     }
     updateClock();
     setInterval(updateClock, 1000);
 
-    // Load wallpaper
     const savedWallpaper = localStorage.getItem('wallpaper');
     if (savedWallpaper) {
       document.body.style.backgroundImage = `url(${savedWallpaper})`;
     }
 
-    // Load foto + nama pas refresh
-    if (isLogin) {
-      currentName = localStorage.getItem('currentUser') || '';
+    if (isLogin && currentName) {
       loadUserPhoto(currentName);
+      loginSuccess();
     }
 
-    updateUI();
-
     function loadFoto(event) {
-      if (!currentName) {
-        alert('Login first to set profile photo');
-        return;
-      }
       const file = event.target.files[0];
-      if (file) {
+      if (file && nameInput.value.trim()) {
         const reader = new FileReader();
         reader.onload = e => {
-          profilePic.src = e.target.result;
-          let photoKey = 'photo_' + currentName.toLowerCase();
-          localStorage.setItem(photoKey, e.target.result);
-          statusMsg.textContent = 'Profile photo updated';
-          statusMsg.style.color = '#059669';
-          setTimeout(() => statusMsg.textContent = '', 2000);
+          avatar.src = e.target.result;
+          let key = 'photo_' + nameInput.value.trim().toLowerCase();
+          localStorage.setItem(key, e.target.result);
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function loadFoto2(event) {
+      const file = event.target.files[0];
+      if (file && currentName) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          avatar2.src = e.target.result;
+          let key = 'photo_' + currentName.toLowerCase();
+          localStorage.setItem(key, e.target.result);
         }
         reader.readAsDataURL(file);
       }
@@ -243,64 +277,76 @@
         reader.onload = e => {
           document.body.style.backgroundImage = `url(${e.target.result})`;
           localStorage.setItem('wallpaper', e.target.result);
-          statusMsg.textContent = 'Wallpaper changed';
-          statusMsg.style.color = '#059669';
-          setTimeout(() => statusMsg.textContent = '', 2000);
         }
         reader.readAsDataURL(file);
       }
     }
 
     function loadUserPhoto(nama) {
-      if (!nama) {
-        profilePic.src = defaultAvatar;
-        return;
-      }
-      let photoKey = 'photo_' + nama.toLowerCase();
-      let fotoTersimpan = localStorage.getItem(photoKey);
-      profilePic.src = fotoTersimpan || defaultAvatar;
+      let key = 'photo_' + nama.toLowerCase();
+      let foto = localStorage.getItem(key);
+      avatar.src = foto || defaultAvatar;
+      avatar2.src = foto || defaultAvatar;
     }
 
-    function cekPIN() {
-      let namaMasukkan = nameInput.value.trim();
-      let pinMasukkan = pinInput.value;
+    function login() {
+      let nama = nameInput.value.trim();
+      let pin = pinInput.value;
 
-      if (!namaMasukkan) {
-        alert('Please tell us who you are');
+      if (!nama) {
+        alert('Enter your name');
         return;
       }
 
-      currentName = namaMasukkan;
-      let pinKey = 'pin_' + namaMasukkan.toLowerCase();
-      let pinTersimpan = localStorage.getItem(pinKey);
+      currentName = nama;
+      let pinKey = 'pin_' + nama.toLowerCase();
+      let savedPin = localStorage.getItem(pinKey);
 
-      if (!pinTersimpan) {
-        if (pinMasukkan.length < 4) {
-          alert('PIN must be at least 4 digits');
+      if (!savedPin) {
+        if (pin.length < 4) {
+          alert('PIN min 4 digits');
           return;
         }
-        localStorage.setItem(pinKey, pinMasukkan);
-        statusMsg.textContent = `New account created for ${namaMasukkan}`;
-        statusMsg.style.color = '#059669';
-        loadUserPhoto(namaMasukkan);
-        loginSukses();
+        localStorage.setItem(pinKey, pin);
+        statusMsg.textContent = 'New account created';
+        statusMsg.style.color = '#4ade80';
       } else {
-        if (pinMasukkan === pinTersimpan) {
-          statusMsg.textContent = '';
-          loadUserPhoto(namaMasukkan);
-          loginSukses();
-        } else {
-          alert(`Wrong PIN for ${namaMasukkan}`);
+        if (pin!== savedPin) {
+          alert('Wrong PIN');
           pinInput.value = '';
+          return;
         }
       }
-    }
 
-    function loginSukses() {
+      loadUserPhoto(nama);
       isLogin = true;
       localStorage.setItem('isLogin', 'true');
-      localStorage.setItem('currentUser', currentName);
-      updateUI();
+      localStorage.setItem('currentUser', nama);
+      loginSuccess();
+    }
+
+    function loginSuccess() {
+      userName.textContent = currentName;
+      loginArea.classList.add('hidden');
+      desktopArea.classList.remove('hidden');
+      nameInput.value = '';
+      pinInput.value = '';
+      statusMsg.textContent = '';
+    }
+
+    function logout() {
+      isLogin = false;
+      localStorage.setItem('isLogin', 'false');
+      desktopArea.classList.add('hidden');
+      loginArea.classList.remove('hidden');
+      avatar.src = defaultAvatar;
+    }
+
+    function resetData() {
+      if (confirm('Reset all data?')) {
+        localStorage.clear();
+        location.reload();
+      }
     }
 
     function bukaApp(app) {
@@ -312,63 +358,8 @@
         'youtube': 'https://www.youtube.com',
         'google': 'https://www.google.com'
       };
-
-      // Buka di tab baru biar ada tombol back
       window.open(links[app], '_blank');
-
-      statusMsg.textContent = `Opening ${app}...`;
-      statusMsg.style.color = '#3b82f6';
-      setTimeout(() => statusMsg.textContent = '', 2000);
     }
-
-    function logout() {
-      if (confirm(`Back to login screen?`)) {
-        isLogin = false;
-        localStorage.setItem('isLogin', 'false');
-        nameInput.value = '';
-        pinInput.value = '';
-        currentName = '';
-        statusMsg.textContent = '';
-        profilePic.src = defaultAvatar;
-        updateUI();
-      }
-    }
-
-    function resetData() {
-      if (confirm('Reset all data and wallpaper?')) {
-        localStorage.clear();
-        alert('All data reset');
-        nameInput.value = '';
-        pinInput.value = '';
-        profilePic.src = defaultAvatar;
-        document.body.style.backgroundImage = 'none';
-        currentName = '';
-        isLogin = false;
-        statusMsg.textContent = '';
-        updateUI();
-      }
-    }
-
-    function updateUI() {
-      if (isLogin) {
-        loginArea.classList.add('hidden');
-        logoutArea.classList.remove('hidden');
-        welcome.textContent = `Welcome, ${currentName}`;
-      } else {
-        loginArea.classList.remove('hidden');
-        logoutArea.classList.add('hidden');
-      }
-    }
-
-    pinInput.addEventListener('keypress', e => {
-      if (e.key === 'Enter') cekPIN();
-    });
-
-    nameInput.addEventListener('input', e => {
-      let nama = e.target.value.trim();
-      if (nama) loadUserPhoto(nama);
-      else profilePic.src = defaultAvatar;
-    });
   </script>
 </body>
 </html>
