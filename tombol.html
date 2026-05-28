@@ -12,22 +12,25 @@
       background-color: #f0f0f0;
     }
     button {
-      background-color: #8b5cf6;
-      color: #f59e0b;
+      color: white;
       border: none;
       padding: 15px 40px;
       font-size: 18px;
       border-radius: 50px;
       cursor: pointer;
       font-weight: bold;
+      transition: 0.3s;
     }
-    button:hover {
-      opacity: 0.8;
+    .login {
+      background-color: #8b5cf6;
+    }
+    .logout {
+      background-color: #ef4444;
     }
   </style>
 </head>
 <body>
-  <button id="btnLogin" onclick="toggleLogin()">Login</button>
+  <button id="btnLogin" class="login" onclick="toggleLogin()">Login</button>
 
   <script>
     let isLogin = false;
@@ -36,9 +39,11 @@
       const btn = document.getElementById('btnLogin');
       if (isLogin) {
         btn.textContent = 'Login';
+        btn.className = 'login';
         isLogin = false;
       } else {
         btn.textContent = 'Logout';
+        btn.className = 'logout';
         isLogin = true;
       }
     }
