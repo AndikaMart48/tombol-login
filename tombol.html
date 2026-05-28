@@ -28,6 +28,10 @@
       transform: scale(1.05);
       box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
     .login {
       background: linear-gradient(135deg, #8b5cf6, #a855f7);
     }
@@ -92,8 +96,15 @@
           localStorage.setItem('namaUser', nama);
         }
         
-        updateUI();
-        window.open('https://www.google.com', '_blank');
+        // Efek loading 1 detik
+        btn.disabled = true;
+        welcome.textContent = 'Sedang menghubungkan ke Google...';
+        
+        setTimeout(() => {
+          updateUI();
+          btn.disabled = false;
+          window.open('https://www.google.com', '_blank');
+        }, 1000);
       }
     }
 
