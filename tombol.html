@@ -54,7 +54,9 @@
       } else {
         isLogin = true;
         localStorage.setItem('isLogin', 'true');
-        window.open('https://www.google.com', '_blank');
+        updateUI(); // update tampilan jadi Logout dulu
+        window.open('https://www.google.com', '_blank'); // baru buka Google
+        return;
       }
       updateUI();
     }
