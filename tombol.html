@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HACKER LOGIN v2.0</title>
+  <title>HACKER LOGIN v2.1</title>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -18,7 +18,6 @@
       overflow: hidden;
       position: relative;
     }
-    /* Matrix Rain Effect */
     canvas {
       position: absolute;
       top: 0;
@@ -42,7 +41,7 @@
       font-size: clamp(12px, 3vw, 18px);
       opacity: 0.8;
     }
- .profile-pic {
+   .profile-pic {
       width: clamp(100px, 25vw, 130px);
       height: clamp(100px, 25vw, 130px);
       border-radius: 50%;
@@ -54,7 +53,7 @@
       z-index: 1;
       filter: hue-rotate(90deg) brightness(1.2);
     }
- .name-text {
+   .name-text {
       color: #00ff00;
       font-size: clamp(20px, 5vw, 28px);
       font-weight: bold;
@@ -70,13 +69,13 @@
       max-width: 320px;
       z-index: 1;
     }
- .pin-label {
+   .pin-label {
       color: #00ff00;
       font-size: clamp(14px, 4vw, 18px);
       margin-bottom: 12px;
       text-shadow: 0 0 5px #00ff00;
     }
- .pin-input {
+   .pin-input {
       padding: 12px 20px;
       font-size: clamp(16px, 5vw, 20px);
       border: 2px solid #00ff00;
@@ -92,15 +91,15 @@
       display: block;
       margin: 0 auto 20px auto;
     }
- .pin-input:focus {
+   .pin-input:focus {
       background: rgba(0, 255, 0, 0.2);
       box-shadow: 0 0 20px #00ff00;
     }
- .pin-input::placeholder {
+   .pin-input::placeholder {
       color: rgba(0, 255, 0, 0.4);
       letter-spacing: normal;
     }
- .btn {
+   .btn {
       color: #00ff00;
       border: 2px solid #00ff00;
       padding: 12px 40px;
@@ -116,11 +115,11 @@
       max-width: 200px;
       text-transform: uppercase;
     }
- .btn:hover {
+   .btn:hover {
       background: rgba(0, 255, 0, 0.3);
       box-shadow: 0 0 30px #00ff00;
     }
- .forgot-pin {
+   .forgot-pin {
       color: #00ff00;
       font-size: clamp(12px, 3vw, 14px);
       cursor: pointer;
@@ -129,16 +128,16 @@
       display: block;
       opacity: 0.7;
     }
- .forgot-pin:hover {
+   .forgot-pin:hover {
       opacity: 1;
     }
- .btn-logout {
+   .btn-logout {
       border-color: #ff0000;
       color: #ff0000;
       box-shadow: 0 0 10px #ff0000;
       background: rgba(255, 0, 0, 0.1);
     }
- .btn-logout:hover {
+   .btn-logout:hover {
       background: rgba(255, 0, 0, 0.3);
       box-shadow: 0 0 30px #ff0000;
     }
@@ -160,7 +159,7 @@
       25% { transform: translateX(-10px); }
       75% { transform: translateX(10px); }
     }
- .shake {
+   .shake {
       animation: shake 0.3s ease;
     }
     footer {
@@ -173,7 +172,7 @@
       z-index: 1;
       opacity: 0.6;
     }
- .hidden {
+   .hidden {
       display: none;
     }
     #changeWallpaper {
@@ -222,6 +221,11 @@
   <footer>ROOT@ANDIKA-MART:~# 2026</footer>
 
   <script>
+    // AUTO RESET WALLPAPER BUAT PASTIIN MATRIX KELIATAN
+    localStorage.removeItem('wallpaperUser');
+    document.body.style.backgroundImage = 'none';
+    document.body.style.background = '#000';
+
     // Matrix Rain Effect
     const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
@@ -303,6 +307,19 @@
         reader.onload = e => {
           profilePic.src = e.target.result;
           localStorage.setItem('fotoUser', e.target.result);
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function loadWallpaper(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          // Kalau upload wallpaper, matrix bakal ketutup. Mending jangan dipake di versi hacker
+          body.style.backgroundImage = `url(${e.target.result})`;
+          localStorage.setItem('wallpaperUser', e.target.result);
         }
         reader.readAsDataURL(file);
       }
